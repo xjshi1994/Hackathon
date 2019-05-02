@@ -6,10 +6,13 @@ from forms import DemographicForm, ListForm, AddForm
 from drchrono.models import List
 from django.shortcuts import render, redirect
 
+# static variable for the status of the appointment
 STATUS_BLANK = ""
 STATUS_ARRIVED = "Arrived"
 STATUS_IN_SESSION = "In Session"
 STATUS_COMPLETED = "Complete"
+
+# For this Hackathon only has one doctor and one office. These variables are needed to add new appointment.
 DOCTOR_ID = 242548
 OFFICE_ID = 257827
 
@@ -40,9 +43,12 @@ class DoctorWelcome(TemplateView):
 
         # get doctor info
         doctor = helper.get_doctor(DOCTOR_ID)
+        # get all today's appointments for the doctor
         appointments_iterator = helper.get_all_appointments(doctor_id=DOCTOR_ID)
+        # iterate
         result = helper.get_appointments_render(appointments_iterator)
 
+        # doctor first name and last name for the welcome
         kwargs['first_name'] = doctor['first_name']
         kwargs['last_name'] = doctor['last_name']
         kwargs['appointments'] = result
@@ -54,6 +60,9 @@ class DoctorWelcome(TemplateView):
 
 
 class PatientCheckIn(TemplateView):
+    """
+    patient's appointments info page
+    """
     template_name = "patient_check_in.html"
 
     def get_context_data(self, **kwargs):
@@ -72,7 +81,7 @@ class PatientCheckIn(TemplateView):
         try:
             appointments_iterator = helper.get_all_appointments(first_name, last_name, date_of_birth)
         except Exception:
-            # indication of whether there exists appointment today
+            # indication of whether there exists appointment today. 1 denote there is no appointment today
             kwargs["err"] = 1
             return kwargs
 
@@ -94,10 +103,16 @@ class PatientCheckIn(TemplateView):
 
 
 class PatientHome(TemplateView):
+    """
+    check-in page allows the patient to input first name, last name and DOB
+    """
     template_name = "patient_home.html"
 
 
 class UpdatePatientInfo(TemplateView):
+    """
+    show info of updating after the patient check in
+    """
     template_name = "update_patient_info.html"
 
     def get_context_data(self, **kwargs):
@@ -126,6 +141,9 @@ class UpdatePatientInfo(TemplateView):
 
 
 class UpdateAppointmentStatus(TemplateView):
+    """
+    show info of updating after the doctor edit the status of the appointment
+    """
     template_name = "update_appointment_status.html"
 
     def get_context_data(self, **kwargs):
@@ -161,6 +179,9 @@ class UpdateAppointmentStatus(TemplateView):
 
 
 class Demographic(TemplateView):
+    """
+    form which allows patient to input his/her demographic data
+    """
     template_name = "demographic_form.html"
 
     def get_context_data(self, **kwargs):
@@ -183,12 +204,10 @@ class Demographic(TemplateView):
         return kwargs
 
 
-"""
-show the statistic of waiting and in_session time
-"""
-
-
 class TimeStat(TemplateView):
+    """
+    show the statistic of waiting and in_session time
+    """
     template_name = "time_stat.html"
 
     def get_context_data(self, **kwargs):
@@ -202,12 +221,10 @@ class TimeStat(TemplateView):
         return kwargs
 
 
-"""
-new appointment form
-"""
-
-
 class NewAppointmentForm(TemplateView):
+    """
+    a form which is used to new appointment
+    """
     template_name = "new_appointment_form.html"
 
     def get_context_data(self, **kwargs):
@@ -218,12 +235,10 @@ class NewAppointmentForm(TemplateView):
         return kwargs
 
 
-"""
-post new appointment
-"""
-
-
 class AddAppointmentStatus(TemplateView):
+    """
+    post new appointment
+    """
     template_name = "add_appointment_status.html"
 
     def get_context_data(self, **kwargs):
@@ -247,12 +262,11 @@ class AddAppointmentStatus(TemplateView):
         return kwargs
 
 
-"""
-to-do list app
-"""
-
-
 def ToDoList(request):
+    """
+    to-do list app
+    """
+
     helper = utils()
 
     if request.method == 'POST':
