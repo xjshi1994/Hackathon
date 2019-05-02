@@ -1,4 +1,4 @@
-# Project introduction
+# Project Introduction
 
 ### Doctor Dashboard
 The dashboard is an interactive and informative page for the doctor, 
