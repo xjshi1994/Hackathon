@@ -1,0 +1,27 @@
+
+{% extends 'base.html'%}
+{% block extra_header %}
+    <meta http-equiv='refresh' content='3; URL=http://localhost:8080/patient_home/'>
+{% endblock %}
+
+{% block title %}
+    update
+{% endblock %}
+
+{% block body %}
+    {#    update the patient info successfully#}
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success alert-dismissable" role="alert">
+                <button class = "close" data-dismiss="alert">
+                    <small><sup>x</sup></small>
+                </button>
+            {{ message }}
+            <p> 3 seconds later auto redirect to the home page</p>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}
+

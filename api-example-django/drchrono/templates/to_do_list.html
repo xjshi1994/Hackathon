@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block extra_header %}
+    {% load staticfiles %}
+    <link rel="stylesheet" href={% static 'drchrono/css/todo.css' %}>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{% url 'social:begin' 'drchrono' %}"><img
+                src="https://dka575ofm4ao0.cloudfront.net/pages-transactional_logos/retina/669/Jzn62YCTmq3Drbc2BrmL"
+                alt="" width="125" height="35"></a></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="{% url 'social:begin' 'drchrono' %}">Appointments <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'patient_home' %}">Kiosk</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Todo-List</a>
+                </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0" method="POST">
+                {% csrf_token %}
+                <input class="form-control mr-sm-2" type="search" placeholder="Add item" name="item"
+                       aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">add</button>
+            </form>
+        </div>
+    </nav>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-warning alert-dismissable" role="alert">
+                <button class="close" data-dismiss="alert">
+                    <small><sup>x</sup></small>
+                </button>
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if all_items %}
+        <table class="table table-bordered">
+            <tbody>
+            {% for thing in all_items %}
+                {# the thing finished#}
+                {% if thing.finished %}
+                    <tr class="table-secondary">
+                        <td class="striker">{{ thing.item }}</td>
+                        <td class="text-center"><a href="{% url 'uncross' thing.id %}">uncross</a></td>
+                        <td class="text-center"><a href="{% url 'delete' thing.id %}">delete</a></td>
+                    </tr>
+                {% else %}
+                    {# the thing is not finished#}
+                    <tr>
+                        <td>{{ thing.item }}</td>
+                        <td class="text-center"><a href="{% url 'cross_off' thing.id %}">cross off</a></td>
+                        <td class="text-center"><a href="{% url 'delete' thing.id %}">delete</a></td>
+                    </tr>
+                {% endif %}
+
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+{% endblock %}

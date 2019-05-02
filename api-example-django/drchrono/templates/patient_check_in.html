@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% block extra_header %}
+
+{% endblock %}
+
+{% block title %}
+    patient_check_in
+{% endblock %}
+
+{% block body %}
+    {#    enter wrong info#}
+    {% if err == 1 %}
+        <div class="alert alert-danger" role="alert">
+            Wrong information! <a href="{% url 'patient_home' %}" class="alert-link">check-in home page</a>. click to
+            re-input.
+        </div>
+    {% else %}
+        {# there is no appointment#}
+        {% if size == 0 %}
+            <div class="alert alert-primary" role="alert">
+                <button class="close" data-dismiss="alert">
+                    <small><sup>x</sup></small>
+                </button>
+                You don't have appointment today!
+            </div>
+        {% endif %}
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'patient_home' %}"><img
+                    src="https://dka575ofm4ao0.cloudfront.net/pages-transactional_logos/retina/669/Jzn62YCTmq3Drbc2BrmL"
+                    alt="" width="125" height="35"></a></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+        <h1>Welcome dear {{ first_name }} {{ last_name }}!</h1>
+        <form class="form-inline my-2 my-lg-0" style="float: right;" action="{% url 'new_appointment_form' %}">
+            <input type="hidden" name="patient_id" value={{ pid }}>
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Add New Appointment</button>
+        </form>
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                <th>Scheduled Time</th>
+                <th>Doctor</th>
+                <th>Status</th>
+                <th>Check-in</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for appointment in appointments %}
+                {# patient is late, make the row grey#}
+                {% if appointment.is_late == '1' %}
+                    <tr class="table-secondary">
+                        <td>
+                            {{ appointment.appointment_detail.scheduled_time }}
+                        </td>
+                        <td>
+                            {{ appointment.doctor_detail.first_name }} {{ appointment.doctor_detail.last_name }}
+                        </td>
+                        <td>
+                            {% if appointment.appointment_detail.status|length %}
+                                {{ appointment.appointment_detail.status }}
+                            {% else %}
+                                Not Arrived
+                            {% endif %}
+
+                        </td>
+                        <td>
+                            {% if appointment.appointment_detail.status|length %}
+                                <span class="badge badge-success">Success</span>
+                            {% else %}
+                                <form action="{% url 'demographic_form' %}">
+                                    <input type="hidden" name="appointment_id"
+                                           value={{ appointment.appointment_detail.id }}>
+                                    <input type="hidden" name="patient_id"
+                                           value={{ appointment.patient_detail.id }}>
+                                    <input type="submit" value="confirm my information and check in">
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td>
+                            {{ appointment.appointment_detail.scheduled_time }}
+                        </td>
+                        <td>
+                            {{ appointment.doctor_detail.first_name }} {{ appointment.doctor_detail.last_name }}
+                        </td>
+                        <td>
+                            {% if appointment.appointment_detail.status|length %}
+                                {{ appointment.appointment_detail.status }}
+                            {% else %}
+                                Not Arrived
+                            {% endif %}
+
+                        </td>
+                        <td>
+                            {% if appointment.appointment_detail.status|length %}
+                                <span class="badge badge-success">Success</span>
+                            {% else %}
+                                <form action="{% url 'demographic_form' %}">
+                                    <input type="hidden" name="appointment_id"
+                                           value={{ appointment.appointment_detail.id }}>
+                                    <input type="hidden" name="patient_id"
+                                           value={{ appointment.patient_detail.id }}>
+                                    <input type="submit" value="confirm my information and check in">
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+{% endblock %}
+
+
+
+
+
+
+
+
+{##}
+{#    {% for appointment in appointments %}#}
+{#    scheduled_time: {{ appointment.appointment_detail.scheduled_time }} <br>#}
+{#    status: {{ appointment.appointment_detail.status }} <br>#}
+{#    appointment_id: {{ appointment.appointment_detail.id }} <br>#}
+{#    doctor: {{ appointment.doctor_detail.first_name }} {{ appointment.doctor_detail.last_name }}#}
+{##}
+{#    <form action="{% url 'update_patient_info' %}">#}
+{#        <input type="hidden" name="appointment_id" value={{ appointment.appointment_detail.id }}>#}
+{#        <input type="submit" appointment="confirm my information and check in">#}
+{#    </form>#}
+{#{% endfor %}#}

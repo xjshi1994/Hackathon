@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% block extra_header %}
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+    <form action="{% url 'add_appointment_status' %}">
+        <div>
+            Exam room: <select name="exam_room" required>
+            <option selected>select room</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+        </select>
+        </div>
+        <div>
+            duration: <input type="text" name="duration" required>
+        </div>
+        <div>
+            Scheduled datetime: <input type="datetime-local" name="scheduled_time" required>
+        </div>
+        <input type="hidden" name="patient_id"
+               value={{ patient_id }}>
+        <input type="submit" value="add new appointment">
+    </form>
+
+{% endblock %}

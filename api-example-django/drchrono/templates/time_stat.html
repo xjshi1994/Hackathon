@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block extra_header %}
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+    <h1>Time statistic</h1>
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+        <tr>
+            <td>waiting_duration(min)</td>
+            <td>in_session_duration(min)</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ time_stat.waiting_duration }} </td>
+            <td>{{ time_stat.session_duration }}</td>
+        </tr>
+        </tbody>
+    </table>
+
+    <form action = "{% url 'setup' %}" style="float: right;">
+        <input class="btn btn-primary" type = "submit" value="Return">
+    </form>
+
+{% endblock %}

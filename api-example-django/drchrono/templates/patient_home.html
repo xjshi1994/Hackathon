@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block extra_header %}
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'drchrono/css/patient_home.css' %}" type="text/css">
+{% endblock %}
+
+{% block title %}
+    patient_check_in
+{% endblock %}
+
+{% block body %}
+    <div class="text-center">
+
+        <form class="form-signin" action="{% url 'patient_check_in' %}">
+            <img class="mb-4"
+                 src="https://dka575ofm4ao0.cloudfront.net/pages-transactional_logos/retina/669/Jzn62YCTmq3Drbc2BrmL"
+                 alt="" width="250" height="70">
+            <h1 class="h3 mb-3 font-weight-normal">Weclome kiosk!</h1>
+            <label for="first_name" class="sr-only">First Name</label>
+            <input id="first_name" name="first_name" class="form-control" placeholder="First name" required autofocus>
+
+            <label for="last_name" class="sr-only">Last Name</label>
+            <input id="last_name" name="last_name" class="form-control" placeholder="Last Name" required>
+
+            <label for="date_of_birth" class="sr-only">Date Of Birth</label>
+            <input type=date id="date_of_birth" name="date_of_birth" class="form-control" required>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">check in</button>
+
+            <p class="mt-5 mb-3 text-muted">&copy; 2019-2020</p>
+        </form>
+    </div>
+
+{% endblock %}
+
+{#        date of birth: <input name="date_of_birth" type="date" required><br>#}
+{#        <input type="submit" value="check-in">#}
+
