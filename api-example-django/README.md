@@ -1,4 +1,4 @@
-# drchrono Hackathon
+# Project introduction
 
 ### Doctor Dashboard
 The dashboard is an interactive and informative page for the doctor, 
